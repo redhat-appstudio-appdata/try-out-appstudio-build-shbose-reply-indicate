@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: spi-controller
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: spi-controller
+    app.kubernetes.io/part-of: try-out-appstudio-build
+  name: spi-controller
+  namespace: shbose
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: spi-controller
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: spi-controller
+    spec:
+      containers:
+      - image: quay.io/redhat-appstudio/user-workload:shbose-spi-controller
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+status: {}
