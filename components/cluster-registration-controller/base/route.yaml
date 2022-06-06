@@ -1,0 +1,23 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: cluster-registration-controller
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: cluster-registration-controller
+    app.kubernetes.io/part-of: try-out-appstudio-build
+  name: cluster-registration-controller
+  namespace: shbose
+spec:
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: cluster-registration-controller
+    weight: 100
+status: {}
